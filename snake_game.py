@@ -1,15 +1,16 @@
 import pygame
+import sys
 import random
 import time
 
 pygame.init()
 
-
 largeur_fenetre = 800
 hauteur_fenetre = 600
 taille_bloc = 20
-vitesse_serpent = 10
 distance_collision = 10
+
+
 
 
 blanc = (255, 255, 255)
@@ -26,6 +27,9 @@ def jeu():
     nourriture = [random.randrange(1, (largeur_fenetre//taille_bloc)) * taille_bloc,
                   random.randrange(1, (hauteur_fenetre//taille_bloc)) * taille_bloc ]
     score = 0
+    niveau = 1
+    vitesse_serpent = 5
+
 
 
     while True:
@@ -84,11 +88,23 @@ def jeu():
             pygame.draw.rect(fenetre, noir, [segment[0], segment[1], taille_bloc, taille_bloc])
         pygame.draw.rect(fenetre, rouge, [nourriture[0], nourriture[1], taille_bloc, taille_bloc])
 
+        if score == 10 :
+            niveau += 1
+            score = 0
+            vitesse_serpent += 5
+
         font = pygame.font.SysFont(None, 25)
         score_text = font.render("score: " + str(score), True, noir)
         fenetre.blit(score_text, [10, 10])
+
+        font = pygame.font.SysFont(None, 25)
+        niveau_text = font.render("niveau: " + str(niveau), True, noir)
+        fenetre.blit(niveau_text, [100, 10])
 
         pygame.display.update()
         time.sleep(1/vitesse_serpent)
 
 jeu()
+pygame.quit()
+sys.exit()
+
